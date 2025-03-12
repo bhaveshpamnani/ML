@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>📊 ML Dashboard - Analysis Results</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0;
+            padding: 50px;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h2, h3, h4 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        table, th, td {
+            border: 1px solid #dcdde1;
+            text-align: center;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+        }
+        td {
+            padding: 12px;
+            background-color: #fafafa;
+        }
+        .grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .highlight {
+            background-color: #ffebcd;
+            border-left: 5px solid #e67e22;
+            color: #a04000;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background-color: #d35400;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📊 Machine Learning Analysis Dashboard</h2>
+
+    <h3>📦 Dataset Overview</h3>
+    <table>
+        <tr><td><strong>Rows</strong></td><td>{{ dataset_info['shape'][0] }}</td></tr>
+        <tr><td><strong>Columns</strong></td><td>{{ dataset_info['shape'][1] }}</td></tr>
+    </table>
+
+    {% set best_model = results | max(attribute='accuracy') %}
+    <div class="highlight">
+        ✅ Best Model: <strong>{{ best_model['model'] }}</strong> with Accuracy: <strong>{{ best_model['accuracy'] }}%</strong>
+    </div>
+
+    <div class="grid">
+        <div>
+            <h3>🏅 Model Performance Comparison</h3>
+            <table>
+                <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1 Score</th></tr>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result['model'] }}</td>
+                    <td>{{ result['accuracy'] }}%</td>
+                    <td>{{ result['precision'] }}%</td>
+                    <td>{{ result['recall'] }}%</td>
+                    <td>{{ result['f1_score'] }}%</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a class="button" href="/">⬅️ Upload Another File</a>
+    </div>
+</div>
+
+</body>
+</html>
